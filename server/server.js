@@ -29,8 +29,8 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/root'));
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/users', require('./routes/userRoutes'));
-app.use('/drivers', require('./routes/driverRoutes'));
-app.use('/bookings', require('./routes/bookingRoutes'));
+app.use('/bookings/users', require('./routes/userBookingRoutes'));
+app.use('/bookings/drivers', require('./routes/driverBookingRoutes'));
 
 app.all('*', (req, res) => {
   res.status(404);

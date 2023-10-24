@@ -32,9 +32,9 @@ const createNewUser = async (req, res) => {
   const user = await User.create(userObject);
 
   if (user) {
-    res.status(201).json({ message: `New user ${username} created` });
+    res.status(201).json({ message: `New ${roles.at(0)} ${username} created` });
   } else {
-    return res.status(500).json({ message: 'User creation failed' });
+    return res.status(500).json({ message: `${roles.at(0)} creation failed` });
   }
 };
 

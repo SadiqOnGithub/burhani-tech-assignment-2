@@ -10,7 +10,11 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   roles: {
-    type: [String],
+    type: [{
+      type: String,
+      enum: ['User', 'Driver'], // Restrict elements in the array to 'User' or 'Driver'
+    }],
+    required: true,
   },
 });
 

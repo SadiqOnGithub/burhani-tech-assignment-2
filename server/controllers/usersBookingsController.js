@@ -1,22 +1,23 @@
 const Booking = require('../models/Booking');
 
 
+// get all bookings
 const getAllBookings = async (req, res) => {
   const bookings = await Booking.find().lean().exec();
 
   res.json(bookings);
 };
 
+// get a single booking by ID
 const getABooking = async (req, res) => {
+  if (!req?.roles?.includes('User')) return res.status(403).json({ message: 'Action not allowed' });
+  
   const { userId } = req.body;
 
   // check if we recieved id 
   if (!userId) return res.status(400).json({ message: 'userId is required' });
 
   // Check user permissions (e.g., user should only be able to access their own bookings)
-  console.log(userId, req.userId);
-  console.log(typeof userId, typeof req.userId);
-  console.log(userId != req.userId);
   if (userId !== req.userId) return res.status(403).json({ message: 'You do not have permission to access this booking' });
 
   // get the booking using id
@@ -30,15 +31,22 @@ const getABooking = async (req, res) => {
 
 };
 
-
+// create a new booking
 const createNewBooking = async (req, res) => {
+  if (!req?.roles?.includes('User')) return res.status(403).json({message: 'Action not allowed'});
+  
   const { userId, origin, destination, pickupTime } = req.body;
 
   // Confirm data
   if (!userId || !origin || !destination || !pickupTime) return res.status(400).json({ message: 'All fields are required' });
 
+  // Ensure that location is a valid point (e.g., [longitude, latitude])
+  if (!Array.isArray(origin) || !Array.isArray(destination) || origin.length !== 2 || destination.length !== 2) {
+    return res.status(400).json({ message: 'Invalid location' });
+  }
+
   // check the user is correct
-  if (userId !== req.userId) return res.status(401).json({ message: 'Unauthorized' });
+  if (userId !== req.userId) return res.status(401).json({ message: 'Illegal request' });
 
   // check if booking already exist
   const booking = await Booking.findOne({ user: userId }).lean().exec();
@@ -51,11 +59,11 @@ const createNewBooking = async (req, res) => {
     user: userId,
     origin: {
       type: 'Point',
-      coordinates: [origin.longitude, origin.latitude],
+      coordinates: origin,  // [longitude, latitude]
     },
     destination: {
       type: 'Point',
-      coordinates: [destination.longitude, destination.latitude],
+      coordinates: destination,  // [longitude, latitude]
     },
     pickupTime,
   });
@@ -68,14 +76,13 @@ const createNewBooking = async (req, res) => {
 
 };
 
+
 const updateBooking = async (req, res) => {
-  //
-  res.send('updateBooking');
+  res.send('updateUsersBooking');
 };
 
 const deleteBooking = async (req, res) => {
-  //
-  res.send('deleteBooking');
+  res.send('deleteUsersBooking');
 };
 
 module.exports = {

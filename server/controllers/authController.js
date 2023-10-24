@@ -33,7 +33,7 @@ const userLogin = async (req, res) => {
       "roles": foundUser.roles,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '30m' }
+    { expiresIn: '1d' }
   );
 
   const refreshToken = jwt.sign(

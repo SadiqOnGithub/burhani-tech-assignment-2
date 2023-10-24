@@ -8,7 +8,7 @@ const bookingSchema = new mongoose.Schema({
   },
   driver: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Driver',
+    ref: 'User',
   },
   origin: {
     type: {
@@ -39,10 +39,12 @@ const bookingSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Pending', 'Confirmed', 'Completed', 'Rejected'],
+    enum: ['Created', 'Pending', 'Confirmed', 'Completed', 'Rejected'],
     // enum: ['Pending', 'Confirmed', 'Completed', 'Cancelled', 'On Route', 'In Progress', 'Delayed', 'Rejected'],
-    default: 'Pending',
+    default: 'Created',
   }
 });
+
+bookingSchema.index({ origin: '2dsphere' });  // adding index for search query
 
 module.exports = mongoose.model('Booking', bookingSchema);
