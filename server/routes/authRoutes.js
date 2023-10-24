@@ -3,7 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 router.route('/')
-  .post(authController.login);
+  .post(authController.userLogin);
 
 router.route('/refresh')
   .get(authController.refresh);

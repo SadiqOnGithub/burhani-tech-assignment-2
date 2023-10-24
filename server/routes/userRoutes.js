@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/usersController');
-const verifyJWT = require('../middleware/verifyJWT');
+// const verifyJWT = require('../middleware/verifyJWT');
 
-router.use(verifyJWT);
-
+if (process.env.NODE_ENV === "development") { 
+  router.route('/all')
+  .get(usersController.getAllUsers); // warning!!! delete after testing
+}
 router.route('/')
-  .get(usersController.getAllUsers)
-  .post(usersController.createNewUser)
-  .patch(usersController.updateUser)
-  .delete(usersController.deleteUser);
+  .post(usersController.createNewUser);
+
+// router.use(verifyJWT);
+
+// router.route('/')
+//   .patch(usersController.updateUser)
+//   .delete(usersController.deleteUser);
 
 module.exports = router;

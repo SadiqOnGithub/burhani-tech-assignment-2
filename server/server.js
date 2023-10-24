@@ -1,6 +1,8 @@
 require('dotenv').config();
+require('express-async-errors');
 const express = require('express');
 const app = express();
+const path = require('path');
 const { logger } = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
 const cookieParser = require('cookie-parser');
@@ -31,7 +33,15 @@ app.use('/drivers', require('./routes/driverRoutes'));
 app.use('/bookings', require('./routes/bookingRoutes'));
 
 app.all('*', (req, res) => {
-  //
+  res.status(404);
+  if (req.accepts('html')) {
+    // send an html file instead
+    res.send('404 Page Not Found');
+  } else if (req.accepts('json')) {
+    res.json({ message: '404 Not Found' });
+  } else {
+    res.type('txt').send('404 Not Found');
+  }
 })
 
 app.use(errorHandler);
@@ -42,5 +52,6 @@ mongoose.connection.once('open', () => {
 });
 
 mongoose.connection.on('error', err => {
-  // handle error
+  console.log(err);
+  logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log');
 });
