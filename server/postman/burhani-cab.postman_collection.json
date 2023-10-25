@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "c56103cf-3fa5-43c3-a8e4-1f737ce3fba8",
+		"name": "burhani-cab",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24713722"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3500/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"Pinaz\",\r\n    \"password\": \"123\",\r\n    \"roles\": [\"Driver\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/users/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3500/users/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"users",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/auth/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"Minaz\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/auth/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"auth",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/auth/refresh",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"Minaz\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/auth/refresh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/auth/logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"Minaz\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/bookings/users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTM3NmNiMjg1NWQ3OWVlYjY5MDk3NzkiLCJ1c2VybmFtZSI6InNhZGlxIiwicm9sZXMiOlsiVXNlciJdLCJpYXQiOjE2OTgxODc1NzcsImV4cCI6MTY5ODE4OTM3N30.TxrcsTWhOgkJSerO-mml3BhrNd22Py3LqN_ywnF01yU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"65376cb2855d79eeb6909779\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/bookings/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"bookings",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/bookings/users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTM4NTM1OWFiOGNmOGVjZmRjMWFiNzciLCJ1c2VybmFtZSI6IlNhZGlxIiwicm9sZXMiOlsiVXNlciJdLCJpYXQiOjE2OTgxOTAxOTksImV4cCI6MTY5ODI3NjU5OX0.BSUVBCKqdTPS6DXcTHg3S6iZHTYy6Y1O-aYBDa9BVNk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"65385359ab8cf8ecfdc1ab77\",\r\n    \"origin\": [77.2135,28.5135],\r\n    \"destination\" : [77.275,28.561],\r\n    \"pickupTime\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/bookings/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"bookings",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/bookings/users/all",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTM4NTQwMTE5NGI3ODcwMWU2NTQ2OTgiLCJ1c2VybmFtZSI6Ik1pbmF6Iiwicm9sZXMiOlsiRHJpdmVyIl0sImlhdCI6MTY5ODE5MDQ5MSwiZXhwIjoxNjk4Mjc2ODkxfQ.wcP37OZVP_izjS1FwANq6QvBde_CEKkb-NwGwyP9aY0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3500/bookings/users/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"bookings",
+						"users",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/bookings/drivers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTM4NTQwMTE5NGI3ODcwMWU2NTQ2OTgiLCJ1c2VybmFtZSI6Ik1pbmF6Iiwicm9sZXMiOlsiRHJpdmVyIl0sImlhdCI6MTY5ODE5MDQ5MSwiZXhwIjoxNjk4Mjc2ODkxfQ.wcP37OZVP_izjS1FwANq6QvBde_CEKkb-NwGwyP9aY0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"driverLocation\" : [77.2841512352912,28.56148217015708],\r\n    \"range\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/bookings/drivers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"bookings",
+						"drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3500/bookings/drivers/653853a9ab8cf8ecfdc1ab7c",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTM4NTQwMTE5NGI3ODcwMWU2NTQ2OTgiLCJ1c2VybmFtZSI6Ik1pbmF6Iiwicm9sZXMiOlsiRHJpdmVyIl0sImlhdCI6MTY5ODE5MDQ5MSwiZXhwIjoxNjk4Mjc2ODkxfQ.wcP37OZVP_izjS1FwANq6QvBde_CEKkb-NwGwyP9aY0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"price\": 100,\r\n    \"driverId\": \"65385401194b78701e654698\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3500/bookings/drivers/653853a9ab8cf8ecfdc1ab7c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"bookings",
+						"drivers",
+						"653853a9ab8cf8ecfdc1ab7c"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
