@@ -6,6 +6,8 @@ import { Container, Typography, TextField, Button, Link, Box } from '@mui/materi
 import axios from '../api/axios';
 import { validationSchema } from '../utils/utils';
 
+const SIGNIN_URL = '/auth';
+
 function SignIn() {
   const formik = useFormik({
     initialValues: {
@@ -16,7 +18,7 @@ function SignIn() {
     onSubmit: async (values, { setFieldError }) => {
       console.log(values);
       try {
-        const response = await axios.post('/auth', values, {
+        const response = await axios.post(SIGNIN_URL, values, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
         });
@@ -38,7 +40,7 @@ function SignIn() {
             } else {
               setFieldError("password", "Wrong pssword");
             }
-            console.log(error.response)
+            console.log(error.response);
           } else {
             // Other server error
             console.error('Server error:', error.response);

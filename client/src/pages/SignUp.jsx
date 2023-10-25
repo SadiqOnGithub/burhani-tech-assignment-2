@@ -1,37 +1,56 @@
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-  Container, Typography,
-  TextField, Button,
-  Link, Box,
-} from '@mui/material';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Container, Typography, TextField, Button, Link, Box, FormControl, FormLabel, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { useFormik } from 'formik';
 
+import axios from '../api/axios';
+import { validationSchema } from '../utils/utils';
+
+const SIGNUP_URL = '/users';
 
 function SignUp() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+      role: 'User',
+    },
+    validationSchema,
+    onSubmit: async (values, { setFieldError }) => {
+      console.log(values);
+      try {
+        const response = await axios.post(
+          SIGNUP_URL,
+          { ...values, roles: [values.role] },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          }
+        );
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('http://localhost:3333/user', {
-        method: 'POST',
-        headers: {
-          "Content-Type": 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      });
-      if (!res.ok) {
-        console.log('signup failed');
-        console.log(await res.json());
-      } else {
-        const data = await res.json();
-        console.log(data.message);
+        console.log(response.data.message);
+        navigate('/signin')
+      } catch (error) {
+
+        if (error.response) {
+          if (error.response.status === 400) {
+            // missing username or password
+            setFieldError("username", error.response.data.message);
+            setFieldError("password", error.response.data.message);
+          } else if (error.response.status === 409) {
+            setFieldError("username", error.response.data.message);
+          } else {
+            // Other server error
+            console.error('Server error:', error.response);
+          }
+        } else {
+          // Network or other client-side errors
+          console.error('Client-side error:', error.message);
+        }
       }
-    } catch (error) {
-      console.log(error);
     }
-  };
+  });
+
 
   return (
     <>
@@ -53,7 +72,7 @@ function SignUp() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleLogin}
+            onSubmit={formik.handleSubmit}
             noValidate
             sx={{
               width: '100%',
@@ -61,38 +80,57 @@ function SignUp() {
             }}
           >
             <TextField
-              margin="normal"
+              autoFocus
               required
-              fullWidth
               id="username"
               label="Username/Email"
-              name="username"
               autoComplete="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoFocus
+              margin="normal"
+              fullWidth
               sx={{ marginBottom: 2 }}
+
+              {...formik.getFieldProps('username')}
+              error={formik.touched.username && Boolean(formik.errors.username)}
+              helperText={formik.touched.username ? formik.errors.username : ''}
             />
             <TextField
-              margin="normal"
               required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
               id="password"
+              type="password"
+              label="Password"
               autoComplete="current-password"
+              margin="normal"
+              fullWidth
               sx={{ marginBottom: 2 }}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+
+              {...formik.getFieldProps('password')}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password ? formik.errors.password : ''}
             />
+
+            {/* role */}
+            <FormControl>
+              <RadioGroup
+                row
+                aria-label="role"
+                name="role"
+                value={formik.values.role}
+                onChange={formik.handleChange}
+                sx={{ marginBottom: 2 }}
+              >
+                <FormControlLabel value="User" control={<Radio />} label="User" />
+                <FormControlLabel value="Driver" control={<Radio />} label="Driver" />
+              </RadioGroup>
+            </FormControl>
+
+            {/* submit button */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               sx={{ marginTop: 2 }}
-              disabled={username === "" || password === ""}
+              disabled={formik.isSubmitting || !formik.isValid}
             >
               Sign Up
             </Button>
