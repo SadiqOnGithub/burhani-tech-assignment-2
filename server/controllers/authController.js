@@ -2,6 +2,10 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
+// @desc Login
+// @route POST /auth
+// @access Public
 const userLogin = async (req, res) => {
   // get username and p/w from body
   const { username, password } = req.body;
@@ -54,26 +58,64 @@ const userLogin = async (req, res) => {
   res.json({ accessToken });
 };
 
+// @desc Refresh
+// @route GET /auth/refresh
+// @access Public - because access token has expired
 const refresh = (req, res) => {
   // get cookies from req
+  const cookies = req.cookies;
 
   // check (!cookies?.jwt); if not sent 401 Unauthorized
+  if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' });
+
+  const refreshToken = cookies.jwt;
 
   // verify refresh token
-  // -- if error send 403 Forbidden
-  // -- get the user from db using decoded username
-  // -- return 401 Unauthorized if user not found
-  // -- create access token
-  // -- send access token as json
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    async (err, decoded) => {
+
+      // -- if error send 403 Forbidden
+      if (err) return res.status(403).json({ message: 'Forbidden' });
+
+      // -- get the user from db using decoded username
+      const foundUser = await User.findOne({username: decoded.username}).select('-password -__v').lean().exec();
+
+      // -- return 401 Unauthorized if user not found
+      if (!foundUser) return res.status(401).json({ message: 'User not found' });
+
+      // -- create access token
+      const accessToken = jwt.sign(
+        {
+          "userId": foundUser._id,
+          "username": foundUser.username,
+          "roles": foundUser.roles,
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '1d' }
+      );
+
+      // -- send access token as json
+      res.json({ accessToken });
+    }
+  );
 
 };
 
+// @desc Logout
+// @route POST /auth/logout
+// @access Public - just to clear cookie if exists
 const logout = (req, res) => {
   // get cookies from req
+  const cookies = req.cookies;
 
   // if (!cookies?.jwt) and sent 204
+  if (!cookies?.jwt) return res.sendStatus(204); //No content
 
   // clear cookies with same security setting
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+  res.json({ message: 'Cookie cleared' });
 };
 
 module.exports = {
