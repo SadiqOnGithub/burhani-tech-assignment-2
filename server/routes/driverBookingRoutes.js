@@ -8,4 +8,9 @@ router.use(verifyJWT);
 router.route('/')
   .get(driversBookingsController.getBookingsInRange);
 
+// Add a dynamic route to get a booking by ID;
+router.route('/:bookingId')
+  .get(driversBookingsController.getBookingById)
+  .patch(driversBookingsController.updateBookingById);
+
 module.exports = router;

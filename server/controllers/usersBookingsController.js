@@ -45,7 +45,7 @@ const createNewBooking = async (req, res) => {
     return res.status(400).json({ message: 'Invalid location' });
   }
 
-  // check the user is correct
+  // check the userId is not tampered
   if (userId !== req.userId) return res.status(401).json({ message: 'Illegal request' });
 
   // check if booking already exist
