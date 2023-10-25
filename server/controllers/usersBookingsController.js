@@ -1,14 +1,18 @@
 const Booking = require('../models/Booking');
 
 
-// get all bookings
+// @desc Get Booking list for
+// @route GET /bookings/users/all
+// @access Public - only available in development env
 const getAllBookings = async (req, res) => {
   const bookings = await Booking.find().lean().exec();
 
   res.json(bookings);
 };
 
-// get a single booking by ID
+// @desc Get a booking for user
+// @route GET /bookings/users
+// @access Private - User Only!
 const getABooking = async (req, res) => {
   if (!req?.roles?.includes('User')) return res.status(403).json({ message: 'Action not allowed' });
   
@@ -31,7 +35,9 @@ const getABooking = async (req, res) => {
 
 };
 
-// create a new booking
+// @desc Create a booking for User
+// @route POST /bookings/users
+// @access Private - User Only!
 const createNewBooking = async (req, res) => {
   if (!req?.roles?.includes('User')) return res.status(403).json({message: 'Action not allowed'});
   
@@ -76,11 +82,12 @@ const createNewBooking = async (req, res) => {
 
 };
 
-
+// NOT IN USE
 const updateBooking = async (req, res) => {
   res.send('updateUsersBooking');
 };
 
+// NOT IN USE
 const deleteBooking = async (req, res) => {
   res.send('deleteUsersBooking');
 };

@@ -45,6 +45,6 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
-bookingSchema.index({ origin: '2dsphere' });  // adding index for search query
+bookingSchema.index({ origin: '2dsphere' });  // adding index to search booking using location
 
 module.exports = mongoose.model('Booking', bookingSchema);

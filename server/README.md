@@ -9,5 +9,7 @@
 - [ ] if decied to go with unique username then it should be extracted from req.params? and should be used to link booking?
 - [ ] please add `isError` in the api error responses
 - [ ] some validations should be removed in production to simplfy the req-res; and make APIs lite weight
-- [ ] 
+- [ ] you can remove !origin in corsOprions.js for production to get tight grip on cross origin request
+
+- [ ] (!req.roles.includes('Driver')), (driverId !== req.userId) in statements like these you can add alearts for tamparation and account compromise, and provide dummy data to confuse hackers
 

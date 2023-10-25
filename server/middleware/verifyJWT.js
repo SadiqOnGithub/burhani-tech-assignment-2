@@ -23,7 +23,7 @@ const verifyJWT = (req, res, next) => {
       }
 
       // Set user-related information in the req object
-      req.userId = decoded.userId; // Assuming userId is part of the token payload
+      req.userId = decoded.userId;
       req.user = decoded.username;
       req.roles = decoded.roles;
 

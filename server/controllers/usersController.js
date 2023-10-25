@@ -1,7 +1,9 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
-
+// @desc Get all users for testing
+// @route GET /users/all
+// @access Public - only available in development env
 const getAllUsers = async (req, res) => {
   const users = await User.find().select('-password -__v').lean().exec();
 
@@ -9,6 +11,9 @@ const getAllUsers = async (req, res) => {
   // res.send('getAllUsers');
 };
 
+// @desc User Registration
+// @route POST /users
+// @access Public 
 const createNewUser = async (req, res) => {
   const { username, password, roles } = req.body;
 
@@ -38,11 +43,13 @@ const createNewUser = async (req, res) => {
   }
 };
 
+// NOT IN USE
 const updateUser = async (req, res) => {
   //
   res.send('updateUser');
 };
 
+// NOT IN USE
 const deleteUser = async (req, res) => {
   //
   res.send('deleteUser');

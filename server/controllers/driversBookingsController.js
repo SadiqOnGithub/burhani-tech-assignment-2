@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Booking = require("../models/Booking");
 
 
+// @desc Get Bookings nearby Driver 
+// @route GET /bookings/drivers
+// @access Private - Driver Only!
 const getBookingsInRange = async (req, res) => {
   // Check if the user has the 'Driver' role
   if (!req.roles.includes('Driver')) return res.status(403).json({ message: 'Action not allowed' });
@@ -32,7 +35,9 @@ const getBookingsInRange = async (req, res) => {
 };
 
 
-// Define a new controller method to get a booking by ID
+// @desc Get a Bookings by id
+// @route GET /bookings/drivers/:bookingId
+// @access Private - Driver Only!
 const getBookingById = async (req, res) => {
   // Check if the user has the 'Driver' role
   if (!req.roles.includes('Driver')) return res.status(403).json({ message: 'Action not allowed' });
@@ -51,6 +56,9 @@ const getBookingById = async (req, res) => {
   res.json(booking);
 };
 
+// @desc Update booking status
+// @route PATCH /bookings/drivers/:bookingId
+// @access Private - Driver Only!
 const updateBookingById = async (req, res) => {
   // Check if the user has the 'Driver' role
   if (!req.roles.includes('Driver')) return res.status(403).json({ message: 'Action not allowed' });
