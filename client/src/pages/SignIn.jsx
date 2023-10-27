@@ -1,6 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { Container, Typography, TextField, Button, Link, Box } from '@mui/material';
 
 import axios from '../api/axios';

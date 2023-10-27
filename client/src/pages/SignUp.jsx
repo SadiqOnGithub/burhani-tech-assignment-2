@@ -1,5 +1,5 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Container, Typography, TextField, Button, Link, Box, FormControl, FormLabel, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Container, Typography, TextField, Button, Link, Box, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useFormik } from 'formik';
 
 import axios from '../api/axios';
