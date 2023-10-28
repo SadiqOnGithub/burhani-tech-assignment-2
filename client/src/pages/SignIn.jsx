@@ -1,13 +1,19 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { Container, Typography, TextField, Button, Link, Box } from '@mui/material';
 
 import axios from '../api/axios';
 import { validationSchema } from '../utils/utils';
+import { useAuth } from '../context/AuthProvider';
 
 const SIGNIN_URL = '/auth';
 
 function SignIn() {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -22,11 +28,22 @@ function SignIn() {
           withCredentials: true,
         });
 
-        const accessToken = response.data.accessToken;
+        const accessToken = response?.data?.accessToken;
+        const roles = response?.data?.roles;
+        const userId = response?.data?.userId;
 
         // Handle successful login, e.g., store the access token and navigate to the next page
-        console.log('Login successful. Access Token:', accessToken);
+        console.log(response?.data);
 
+        setAuth({ username, accessToken, roles, userId });
+
+        if (roles.at(0) === 'User') {
+          navigate('/userhome', { replace: true });
+        } else if (roles.at(0) === 'Driver') {
+          navigate('/driverhome', { replace: true });
+        } else {
+          navigate(from, { replace: true });
+        }
       } catch (error) {
         if (error.response) {
           if (error.response.status === 400) {

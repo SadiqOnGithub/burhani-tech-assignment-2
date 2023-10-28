@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from "@mui/material";
 
-function Home() {
+function LinkPage() {
   return (
     <>
       <Box sx={{
@@ -25,4 +25,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default LinkPage;
