@@ -11,11 +11,12 @@ if (process.env.NODE_ENV === "development") {
 
 router.use(verifyJWT);
 
+router.route('/:userId')
+  .get(usersBookingsController.getABooking);
 router.route('/')
-  .get(usersBookingsController.getABooking)
-  .post(usersBookingsController.createNewBooking)
-  // .patch(bookingsController.updateBooking)
-  // .delete(bookingsController.deleteBooking);
+  .post(usersBookingsController.createNewBooking);
+// .patch(bookingsController.updateBooking)
+// .delete(bookingsController.deleteBooking);
 
 
 module.exports = router;

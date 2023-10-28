@@ -55,7 +55,7 @@ const userLogin = async (req, res) => {
   });
 
   // send access token as json
-  res.json({ accessToken });
+  res.json({ accessToken, roles: foundUser.roles, userId: foundUser._id });
 };
 
 // @desc Refresh

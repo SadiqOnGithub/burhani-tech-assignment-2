@@ -32,6 +32,7 @@ const bookingSchema = new mongoose.Schema({
   },
   pickupTime: {
     type: Date,
+    // type: String,
     required: true,
   },
   price: {

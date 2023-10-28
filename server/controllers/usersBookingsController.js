@@ -16,7 +16,7 @@ const getAllBookings = async (req, res) => {
 const getABooking = async (req, res) => {
   if (!req?.roles?.includes('User')) return res.status(403).json({ message: 'Action not allowed' });
   
-  const { userId } = req.body;
+  const { userId } = req.params;
 
   // check if we recieved id 
   if (!userId) return res.status(400).json({ message: 'userId is required' });
