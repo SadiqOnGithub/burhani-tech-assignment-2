@@ -86,7 +86,7 @@ function UserBookings() {
             <Typography variant="body1">Status: {userBooking.status}</Typography>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
             <Button variant="contained" color="primary">
-              Edit Booking
+              Delete Booking
             </Button>
           </Paper>
         )}

@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import DriverSearchBookings from '../components/DriverSearchBookings';
 
 function DriverHome() {
   return (
-    <div>DriverHome</div>
-  )
+    <>
+      <DriverSearchBookings />
+    </>
+  );
 }
 
-export default DriverHome
+export default DriverHome;

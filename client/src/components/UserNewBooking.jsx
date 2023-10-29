@@ -20,8 +20,8 @@ function UserNewBooking() {
     // Create a request object
     const requestObject = {
       userId: auth.userId, // You should replace this with the actual user ID
-      origin: [parseFloat(origin.split(',')[0]), parseFloat(origin.split(',')[1])], // Assuming input format is "latitude,longitude"
-      destination: [parseFloat(destination.split(',')[0]), parseFloat(destination.split(',')[1])], // Assuming input format is "latitude,longitude"
+      origin: [parseFloat(origin.split(',')[0]), parseFloat(origin.split(',')[1])], 
+      destination: [parseFloat(destination.split(',')[0]), parseFloat(destination.split(',')[1])],
       pickupTime,
     };
 
@@ -59,7 +59,7 @@ function UserNewBooking() {
         </Typography>
         <TextField
           fullWidth
-          label="Origin (latitude,longitude)"
+          label="Origin (longitude, latitude)"
           variant="outlined"
           value={origin}
           onChange={(e) => setOrigin(e.target.value)}
@@ -67,7 +67,7 @@ function UserNewBooking() {
         />
         <TextField
           fullWidth
-          label="Destination (latitude,longitude)"
+          label="Destination (longitude, latitude)"
           variant="outlined"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
