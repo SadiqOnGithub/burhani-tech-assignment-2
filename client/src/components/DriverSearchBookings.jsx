@@ -8,8 +8,10 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemButton,
 } from '@mui/material';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { useNavigate } from 'react-router-dom';
 
 function DriverSearchBookings() {
   const [driverLocation, setDriverLocation] = useState('10.1,11.111');
@@ -17,11 +19,12 @@ function DriverSearchBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
 
 
   const fetchBookingsInRange = async () => {
-    console.log('first')
-    setLoading(true)
+    console.log('first');
+    setLoading(true);
     try {
       const response = await axiosPrivate.post(
         '/bookings/drivers',
@@ -30,7 +33,7 @@ function DriverSearchBookings() {
           range,
         }
       );
-      console.log(response.data)
+      console.log(response.data);
       setBookings(response.data);
       setLoading(false);
     } catch (error) {
@@ -71,17 +74,21 @@ function DriverSearchBookings() {
           <Typography variant="h6">Found Bookings:</Typography>
           <List>
             {bookings.map((booking) => (
-              <ListItem key={booking._id}>
-                <ListItemText
-                  primary={`Origin: ${booking.origin.coordinates.join(', ')}`}
-                  secondary={`Destination: ${booking.destination.coordinates.join(', ')}`}
-                />
-                <ListItemText
-                  primary={`Pickup Time: ${new Date(booking.pickupTime).toLocaleString()}`}
-                  secondary={`Status: ${booking.status}`}
-                />
-              </ListItem>
-            ))}
+                <ListItem key={booking._id}>
+                  <ListItemButton
+                    onClick={() => navigate(booking._id)}
+                  >
+                    <ListItemText
+                      primary={`Origin: ${booking.origin.coordinates.join(', ')}`}
+                      secondary={`Destination: ${booking.destination.coordinates.join(', ')}`}
+                    />
+                    <ListItemText
+                      primary={`Pickup Time: ${new Date(booking.pickupTime).toLocaleString()}`}
+                      secondary={`Status: ${booking.status}`}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
           </List>
         </div>
       )}

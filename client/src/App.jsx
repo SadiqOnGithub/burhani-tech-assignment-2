@@ -8,6 +8,7 @@ import Layout from './components/Layout';
 import UserHome from './pages/UserHome';
 import RequireAuth from './components/RequireAuth';
 import DriverHome from './pages/DriverHome';
+import DriverSelectBooking from './pages/DriverSelectBooking';
 
 export default function App() {
   return (
@@ -26,8 +27,8 @@ export default function App() {
           </Route>
           <Route element={<RequireAuth allowedRoles={['Driver']} />}>
             <Route path="/driverhome" element={<DriverHome />} />
+            <Route path="/driverhome/:bookingId" element={<DriverSelectBooking />} />
           </Route>
-          
         </Route>
       </Routes>
     </Router>
