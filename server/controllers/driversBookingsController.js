@@ -3,7 +3,7 @@ const Booking = require("../models/Booking");
 
 
 // @desc Get Bookings nearby Driver 
-// @route GET /bookings/drivers
+// @route POST /bookings/drivers
 // @access Private - Driver Only!
 const getBookingsInRange = async (req, res) => {
   // Check if the user has the 'Driver' role
@@ -89,7 +89,7 @@ const updateBookingById = async (req, res) => {
   }
 
 
-  booking.driver = driverId
+  booking.driver = driverId;
   booking.price = price;
   booking.status = 'Pending';
 

@@ -6,7 +6,7 @@ const driversBookingsController = require('../controllers/driversBookingsControl
 router.use(verifyJWT);
 
 router.route('/')
-  .get(driversBookingsController.getBookingsInRange);
+  .post(driversBookingsController.getBookingsInRange);
 
 // Add a dynamic route to get a booking by ID;
 router.route('/:bookingId')
