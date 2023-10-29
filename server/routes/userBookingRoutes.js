@@ -14,9 +14,9 @@ router.use(verifyJWT);
 router.route('/:userId')
   .get(usersBookingsController.getABooking);
 router.route('/')
-  .post(usersBookingsController.createNewBooking);
-// .patch(bookingsController.updateBooking)
-// .delete(bookingsController.deleteBooking);
+  .post(usersBookingsController.createNewBooking)
+  .patch(usersBookingsController.acceptBooking)
+  .delete(usersBookingsController.deleteBooking);
 
 
 module.exports = router;

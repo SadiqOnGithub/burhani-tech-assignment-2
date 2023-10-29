@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Booking = require('../models/Booking');
 
 
@@ -15,7 +16,7 @@ const getAllBookings = async (req, res) => {
 // @access Private - User Only!
 const getABooking = async (req, res) => {
   if (!req?.roles?.includes('User')) return res.status(403).json({ message: 'Action not allowed' });
-  
+
   const { userId } = req.params;
 
   // check if we recieved id 
@@ -39,8 +40,8 @@ const getABooking = async (req, res) => {
 // @route POST /bookings/users
 // @access Private - User Only!
 const createNewBooking = async (req, res) => {
-  if (!req?.roles?.includes('User')) return res.status(403).json({message: 'Action not allowed'});
-  
+  if (!req?.roles?.includes('User')) return res.status(403).json({ message: 'Action not allowed' });
+
   const { userId, origin, destination, pickupTime } = req.body;
 
   // Confirm data
@@ -82,20 +83,63 @@ const createNewBooking = async (req, res) => {
 
 };
 
-// NOT IN USE
-const updateBooking = async (req, res) => {
-  res.send('updateUsersBooking');
+// 
+const acceptBooking = async (req, res) => {
+  if (!req?.roles?.includes('User')) return res.status(403).json({ message: 'Action not allowed' });
+
+  const { bookingId } = req.body;
+
+  // Confirm data
+  if (!bookingId) return res.status(400).json({ message: 'Booking ID is required' });
+
+  // find booking
+  const booking = await Booking.findById(bookingId);
+
+  // if no booking send 204 for no content
+  if (!booking) return res.sendStatus(204);
+
+  // booking status changed
+  booking.status = 'Confirmed';
+
+  // Save the updated booking
+  await booking.save();
+
+  res.json({ message: `Booking ${booking._id} is updated` });
 };
 
-// NOT IN USE
+// @desc Delete a booking for User
+// @route DELETE /bookings/users
+// @access Private - User Only!
 const deleteBooking = async (req, res) => {
-  res.send('deleteUsersBooking');
+  if (!req?.roles?.includes('User')) return res.status(403).json({ message: 'Action not allowed' });
+
+  const { bookingId } = req.body;
+  console.log(bookingId);
+  // Confirm data
+  if (!bookingId) return res.status(400).json({ message: 'Booking ID is required' });
+
+  // Check if bookingId is valid ObjectId or not
+  if (!mongoose.Types.ObjectId.isValid(bookingId)) {
+    return res.status(400).json({ message: 'Invalid booking ID' });
+  }
+
+  // delete booking Id
+  const deletedBooking = await Booking.findByIdAndDelete(bookingId).lean().exec();
+
+  console.log(deletedBooking);
+
+  if (!deletedBooking) {
+    return res.status(500).json({ message: 'Failed to delete the booking' });
+  }
+
+  res.status(200).json({ message: 'Booking deleted successfully', deletedBooking });
+
 };
 
 module.exports = {
   getAllBookings,
   getABooking,
   createNewBooking,
-  updateBooking,
+  acceptBooking,
   deleteBooking
 };
