@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { useNavigate } from 'react-router-dom';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import {
   Typography,
   CircularProgress,
@@ -9,9 +10,11 @@ import {
   Button,
   Container,
 } from '@mui/material';
+
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useAuth } from '../context/AuthProvider';
 import axios from '../api/axios';
-import { useNavigate } from 'react-router-dom';
+import PDFReceipt from './PDFReceipt';
 
 function UserBookings() {
   const [userBooking, setUserBooking] = useState(null);
@@ -32,13 +35,30 @@ function UserBookings() {
       .catch((error) => {
         console.log('Error fetching user booking:', error);
         setLoading(false);
-      });  
+      });
   };
 
   useEffect(() => {
-    retryHandler()
-  }, [axiosPrivate])
-  
+    retryHandler();
+  }, []);
+
+  const acceptingBookingHandler = async () => {
+    console.log(userBooking._id);
+    const res = await axiosPrivate.patch('/bookings/users', {
+      bookingId: userBooking._id,
+    });
+    console.log(res.data);
+    retryHandler();
+  };
+
+  const deletedBooking = async () => {
+    const res = await axiosPrivate.delete('/bookings/users', {
+      data: { bookingId: userBooking._id },
+    });
+
+    console.log(res);
+
+  };
 
   const logoutHandler = async () => {
     try {
@@ -49,8 +69,8 @@ function UserBookings() {
       if (response.status === 204) {
         // No content, which means the user was logged out successfully
         console.log('User logged out.');
-        setAuth({})
-        navigate('/')
+        setAuth({});
+        navigate('/');
       } else {
         // Handle unexpected responses or status codes
         console.error('Unexpected response:', response);
@@ -60,7 +80,7 @@ function UserBookings() {
       console.error('Error logging out:', error);
     }
   };
-
+  console.log(userBooking);
   return (
     <Container maxWidth="sm">
       <Box py={8}>
@@ -84,8 +104,33 @@ function UserBookings() {
               {new Date(userBooking.pickupTime).toLocaleString()}
             </Typography>
             <Typography variant="body1">Status: {userBooking.status}</Typography>
+            {(userBooking.status === 'Pending') && (
+              <>
+                <Typography variant="body1">Price: {userBooking.price}</Typography>
+                <Typography variant="body1">Driver ID: {userBooking.driver}</Typography>
+              </>
+            )}
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
-            <Button variant="contained" color="primary">
+            {(userBooking.status === 'Pending') && (
+              <Button variant="contained" color="primary"
+                onClick={acceptingBookingHandler}
+              >
+                Accept Booking
+              </Button>
+            )}
+            {(userBooking.status === 'Confirmed') && (
+              <PDFDownloadLink
+                document={<PDFReceipt driverId={userBooking.driver} price={userBooking.price} />}
+                fileName="booking_receipt.pdf"
+              >
+                {({ blob, url, loading, error }) =>
+                  loading ? 'Loading document...' : <Button>Download Receipt</Button>
+                }
+              </PDFDownloadLink>
+            )}
+            <Button variant="contained" color="error"
+              onClick={deletedBooking}
+            >
               Delete Booking
             </Button>
           </Paper>
