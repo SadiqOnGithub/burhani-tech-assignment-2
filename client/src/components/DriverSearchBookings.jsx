@@ -12,7 +12,7 @@ import {
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 function DriverSearchBookings() {
-  const [driverLocation, setDriverLocation] = useState('78.123,87.123');
+  const [driverLocation, setDriverLocation] = useState('10.1,11.111');
   const [range, setRange] = useState(10);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);

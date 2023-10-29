@@ -5,9 +5,9 @@ import { useAuth } from '../context/AuthProvider';
 
 function UserNewBooking() {
   const axiosPrivate = useAxiosPrivate();
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
-  const [pickupTime, setPickupTime] = useState('');
+  const [origin, setOrigin] = useState('10.1,11.111');
+  const [destination, setDestination] = useState('11.111, 10.1');
+  const [pickupTime, setPickupTime] = useState('2023-10-23');
   const { auth } = useAuth();
 
   const handleBookNow = async () => {
